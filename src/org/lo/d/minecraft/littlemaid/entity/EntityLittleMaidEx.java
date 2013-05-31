@@ -2,15 +2,17 @@ package org.lo.d.minecraft.littlemaid.entity;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.src.LMM_EntityLittleMaid;
+import net.minecraft.src.LMM_EntityModeBase;
 import net.minecraft.world.World;
 
 import org.lo.d.minecraft.littlemaid.LMMExtension;
 import org.lo.d.minecraft.littlemaid.LMMExtension.ModeExWorker;
 import org.lo.d.minecraft.littlemaid.mode.LMMModeExAIHandler;
+import org.lo.d.minecraft.littlemaid.mode.LMMModeExHandleHealthUpdateHandler;
+import org.lo.d.minecraft.littlemaid.mode.LMMModeExHandler.TaskState;
+import org.lo.d.minecraft.littlemaid.mode.LMMModeExInteractHandler;
 
 public class EntityLittleMaidEx extends LMM_EntityLittleMaid {
-
-	int p = 0;
 
 	public EntityLittleMaidEx(LMM_EntityLittleMaid maid) {
 		super(maid.worldObj);
@@ -31,27 +33,50 @@ public class EntityLittleMaidEx extends LMM_EntityLittleMaid {
 
 	@Override
 	public float getAIMoveSpeed() {
-		LMMExtension.delegateModeExs(LMMModeExAIHandler.class, this, new ModeExWorker<LMMModeExAIHandler, Float>() {
-			Float speed;
+		float speed = LMMExtension.delegateModeExs(LMMModeExAIHandler.class, this,
+				new ModeExWorker<LMMModeExAIHandler, Float>() {
+					Float speed;
 
-			@Override
-			public Float getResult() {
-				return speed;
-			}
+					@Override
+					public Float getResult() {
+						return speed;
+					}
 
-			@Override
-			public ModeExWorker.State work(EntityLittleMaidEx maid,
-					LMMModeExAIHandler modeEx) {
-				speed = modeEx.getAIMoveSpeed(maid, maid.getMaidModeInt());
-				return State.CONTINUE;
+					@Override
+					public ModeExWorker.State work(EntityLittleMaidEx maid,
+							LMMModeExAIHandler modeEx) {
+						speed = modeEx.getAIMoveSpeed(maid, maid.getMaidModeInt());
+						if (speed < 0) {
+							return State.CONTINUE;
+						}
+						return State.BREAK;
+					}
+				});
+		if (speed < 0) {
+			return super.getAIMoveSpeed();
+		}
+		return speed;
+	}
+
+	@Override
+	public void handleHealthUpdate(byte par1) {
+		LMM_EntityModeBase mode = getActiveModeClass();
+		if (mode instanceof LMMModeExHandleHealthUpdateHandler) {
+			if (((LMMModeExHandleHealthUpdateHandler) mode).handleHealthUpdate(this, getMaidModeInt(), par1) == TaskState.BREAK) {
+				return;
 			}
-		});
-		return super.getAIMoveSpeed();
+		}
+		super.handleHealthUpdate(par1);
 	}
 
 	@Override
 	public boolean interact(EntityPlayer par1EntityPlayer) {
-		// TODO 自動生成されたメソッド・スタブ
+		LMM_EntityModeBase mode = getActiveModeClass();
+		if (mode instanceof LMMModeExInteractHandler) {
+			if (((LMMModeExInteractHandler) mode).overInteract(par1EntityPlayer)) {
+				return true;
+			}
+		}
 		return super.interact(par1EntityPlayer);
 	}
 }

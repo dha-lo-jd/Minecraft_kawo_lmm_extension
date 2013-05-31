@@ -21,7 +21,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 
 @Mod(modid = "LMMExtension", name = "Kawo_LMM_Extension", version = "0.0.1")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false, channels = {
-	"",
+		"",
 })
 public class LMMExtension {
 
@@ -90,7 +90,7 @@ public class LMMExtension {
 	@Mod.Init
 	public void init(FMLInitializationEvent event) {
 		int entityId = EntityRegistry.findGlobalUniqueEntityId();
-		EntityRegistry.registerModEntity(EntityLittleMaidEx.class, "EntityLittleMaidEx", entityId, this, 250, 5, false);
+		EntityRegistry.registerModEntity(EntityLittleMaidEx.class, "EntityLittleMaidEx", entityId, this, 80, 3, true);
 		EntityRegistry.registerGlobalEntityID(EntityLittleMaidEx.class, "EntityLittleMaidEx", entityId);
 		NetworkRegistry.instance().registerGuiHandler(this, new LMMExGuiHandler());
 	}

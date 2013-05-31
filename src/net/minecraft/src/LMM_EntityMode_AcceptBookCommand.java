@@ -5,16 +5,6 @@ import java.util.Set;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.src.LMM_EntityLittleMaid;
-import net.minecraft.src.LMM_EntityModeBase;
-import net.minecraft.src.LMM_EntityMode_Archer;
-import net.minecraft.src.LMM_EntityMode_Basic;
-import net.minecraft.src.LMM_EntityMode_Cooking;
-import net.minecraft.src.LMM_EntityMode_Fencer;
-import net.minecraft.src.LMM_EntityMode_Healer;
-import net.minecraft.src.LMM_EntityMode_Pharmacist;
-import net.minecraft.src.LMM_EntityMode_Ripper;
-import net.minecraft.src.LMM_EntityMode_Torcher;
 
 import org.lo.d.commons.books.BookReaderSupport;
 import org.lo.d.commons.books.BookReaderSupport.BookCommandBean;
@@ -28,7 +18,9 @@ public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 
 	public static class MaidModeCommand implements BookCommandBean {
 		@Required
-		@Aliases({ @Alias("m") })
+		@Aliases({
+			@Alias("m")
+		})
 		private String mode;
 	}
 
@@ -103,7 +95,7 @@ public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 
 	@Override
 	public int priority() {
-		return 1;
+		return 10;
 	}
 
 	private boolean changeMode(ItemStack litemstack, boolean overInteract) {
@@ -116,6 +108,9 @@ public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 				});
 
 		if (command != null && command.mode != null) {
+			if (command.mode.toUpperCase().equals("Erase".toUpperCase())) {
+				owner.isDead = true;
+			}
 			for (ModeAlias alias : modes) {
 				if (alias.hasValue(command.mode)) {
 					if (alias.modeId == owner.getMaidModeInt()) {

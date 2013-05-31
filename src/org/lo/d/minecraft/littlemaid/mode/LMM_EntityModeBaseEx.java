@@ -8,7 +8,7 @@ import net.minecraft.src.LMM_GuiInventory;
 import net.minecraft.src.ModLoader;
 
 public abstract class LMM_EntityModeBaseEx extends LMM_EntityModeBase implements LMMModeExGuiHandler,
-		LMMModeExAIHandler, LMMModeExInteractHandler {
+		LMMModeExAIHandler, LMMModeExInteractHandler, LMMModeExHandleHealthUpdateHandler {
 
 	public LMM_EntityModeBaseEx(LMM_EntityLittleMaid pEntity) {
 		super(pEntity);
@@ -16,7 +16,7 @@ public abstract class LMM_EntityModeBaseEx extends LMM_EntityModeBase implements
 
 	@Override
 	public float getAIMoveSpeed(LMM_EntityLittleMaid maid, int maidMode) {
-		return 0;
+		return -1;
 	}
 
 	@Override
@@ -30,8 +30,14 @@ public abstract class LMM_EntityModeBaseEx extends LMM_EntityModeBase implements
 	}
 
 	@Override
+	public LMMModeExHandleHealthUpdateHandler.TaskState handleHealthUpdate(LMM_EntityLittleMaid maid, int maidMode,
+			byte par1) {
+		return LMMModeExHandleHealthUpdateHandler.TaskState.CONTINUE;
+	}
+
+	@Override
 	public LMMModeExAIHandler.TaskState onValidateTask(LMM_EntityLittleMaid maid, int maidMode) {
-		return TaskState.BREAK;
+		return LMMModeExAIHandler.TaskState.CONTINUE;
 	}
 
 	@Override

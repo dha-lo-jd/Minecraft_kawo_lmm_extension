@@ -4,7 +4,7 @@ import net.minecraft.src.LMM_EntityAIFindBlock;
 import net.minecraft.src.LMM_EntityLittleMaid;
 
 import org.lo.d.minecraft.littlemaid.mode.LMMModeExAIHandler;
-import org.lo.d.minecraft.littlemaid.mode.LMMModeExAIHandler.TaskState;
+import org.lo.d.minecraft.littlemaid.mode.LMMModeExHandler.TaskState;
 
 public class EntityAIFindBlockEx extends LMM_EntityAIFindBlock {
 	public EntityAIFindBlockEx(LMM_EntityLittleMaid pEntityLittleMaid) {
