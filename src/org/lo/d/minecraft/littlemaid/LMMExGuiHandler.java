@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.src.LMM_Client;
 import net.minecraft.src.LMM_ContainerInventory;
+import net.minecraft.src.LMM_EntityLittleMaid;
 import net.minecraft.src.LMM_GuiInventory;
 import net.minecraft.world.World;
 
@@ -20,9 +21,9 @@ public class LMMExGuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, final EntityPlayer player, World world, int x, int y, int z) {
 		Entity lentity = world.getEntityByID(x);
-		if (lentity instanceof EntityLittleMaidEx) {
+		if (lentity instanceof EntityLittleMaidEx && lentity instanceof LMM_EntityLittleMaid) {
 			LMM_GuiInventory gui = LMMExtension.delegateModeExs(LMMModeExGuiHandler.class,
-					(EntityLittleMaidEx) lentity,
+					(LMM_EntityLittleMaid) lentity,
 					new ModeExWorker<LMMModeExGuiHandler, LMM_GuiInventory>() {
 						private LMM_GuiInventory gui = null;
 
@@ -32,7 +33,7 @@ public class LMMExGuiHandler implements IGuiHandler {
 						}
 
 						@Override
-						public State work(EntityLittleMaidEx maid, LMMModeExGuiHandler modeEx) {
+						public State work(LMM_EntityLittleMaid maid, LMMModeExGuiHandler modeEx) {
 							gui = modeEx.getOpenGuiInventory(player, maid, maid.maidMode);
 							if (gui != null) {
 								return State.BREAK;
@@ -53,8 +54,8 @@ public class LMMExGuiHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, final EntityPlayer player, World world, int x, int y, int z) {
 		Entity lentity = world.getEntityByID(x);
-		if (lentity instanceof EntityLittleMaidEx) {
-			EntityLittleMaidEx maid = (EntityLittleMaidEx) lentity;
+		if (lentity instanceof EntityLittleMaidEx && lentity instanceof LMM_EntityLittleMaid) {
+			LMM_EntityLittleMaid maid = (LMM_EntityLittleMaid) lentity;
 			LMM_ContainerInventory container = LMMExtension.delegateModeExs(LMMModeExGuiHandler.class, maid,
 					new ModeExWorker<LMMModeExGuiHandler, LMM_ContainerInventory>() {
 						private LMM_ContainerInventory container = null;
@@ -65,7 +66,7 @@ public class LMMExGuiHandler implements IGuiHandler {
 						}
 
 						@Override
-						public State work(EntityLittleMaidEx maid, LMMModeExGuiHandler modeEx) {
+						public State work(LMM_EntityLittleMaid maid, LMMModeExGuiHandler modeEx) {
 							container = modeEx
 									.getContainerInventory(player, maid, maid.maidMode);
 							if (container != null) {

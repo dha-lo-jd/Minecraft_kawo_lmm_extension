@@ -1,6 +1,7 @@
 package org.lo.d.minecraft.littlemaid.mode;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.src.LMM_ContainerInventory;
 import net.minecraft.src.LMM_EntityLittleMaid;
 import net.minecraft.src.LMM_EntityModeBase;
@@ -8,7 +9,7 @@ import net.minecraft.src.LMM_GuiInventory;
 import net.minecraft.src.ModLoader;
 
 public abstract class LMM_EntityModeBaseEx extends LMM_EntityModeBase implements LMMModeExGuiHandler,
-		LMMModeExAIHandler, LMMModeExInteractHandler, LMMModeExHandleHealthUpdateHandler {
+		LMMModeExAIHandler, LMMModeExInteractHandler, LMMModeExHandleHealthUpdateHandler, LMMModeExNBTHandler {
 
 	public LMM_EntityModeBaseEx(LMM_EntityLittleMaid pEntity) {
 		super(pEntity);
@@ -46,7 +47,15 @@ public abstract class LMM_EntityModeBaseEx extends LMM_EntityModeBase implements
 	}
 
 	@Override
+	public void readFromNBT(NBTTagCompound par1nbtTagCompound) {
+	}
+
+	@Override
 	public void updateTask(LMM_EntityLittleMaid maid, int maidMode) {
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound par1nbtTagCompound) {
 	}
 
 	protected void addLocalization(String modeName) {
