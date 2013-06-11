@@ -55,6 +55,7 @@ public class BaseEntityLittleMaidEx extends LMM_EntityLittleMaid implements Enti
 
 	@Override
 	public boolean interact(EntityPlayer par1EntityPlayer) {
+		System.out.println("Ex!");
 		LMM_EntityModeBase mode = getActiveModeClass();
 		if (mode instanceof LMMModeExInteractHandler) {
 			if (((LMMModeExInteractHandler) mode).overInteract(par1EntityPlayer)) {

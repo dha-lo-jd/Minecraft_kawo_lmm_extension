@@ -6,7 +6,7 @@ import net.minecraft.src.LMM_EntityLittleMaid;
 
 import org.lo.d.commons.bytecode.ExtendedClassSupport;
 import org.lo.d.commons.bytecode.ExtendedClassSupport.GenerateClassName;
-import org.lo.d.minecraft.littlemaid.LMMExMaidChangeManager.LMMExChanger;
+import org.lo.d.minecraft.littlemaid.entity.AntiEntityLittleMaidEx;
 import org.lo.d.minecraft.littlemaid.entity.BaseEntityLittleMaidEx;
 import org.lo.d.minecraft.littlemaid.entity.EntityLittleMaidEx;
 
@@ -14,19 +14,30 @@ import org.lo.d.minecraft.littlemaid.entity.EntityLittleMaidEx;
 public class ClassGenerateMaidChanger {
 
 	@LMMExChanger.Instance
-	private static final ClassGenerateMaidChanger instance = new ClassGenerateMaidChanger();
+	public static final ClassGenerateMaidChanger instance = new ClassGenerateMaidChanger();
+
+	public boolean canGenarate(Class<?> maidClass) {
+		if (LMM_EntityLittleMaid.class == maidClass || BaseEntityLittleMaidEx.class == maidClass
+				|| !LMM_EntityLittleMaid.class.isAssignableFrom(maidClass)) {
+			return false;
+		}
+		if (EntityLittleMaidEx.class.isAssignableFrom(maidClass)) {
+			return false;
+		}
+		AntiEntityLittleMaidEx antiAnno = maidClass.getAnnotation(AntiEntityLittleMaidEx.class);
+		if (antiAnno != null) {
+			return false;
+		}
+		return true;
+	}
 
 	@LMMExChanger.Change
 	private LMM_EntityLittleMaid change(LMM_EntityLittleMaid maid) {
 		Class<?> maidClass = maid.getClass();
-		final GenerateClassName generateClassName = new ExtendedClassSupport.GenerateClassName(
-				BaseEntityLittleMaidEx.class,
-				LMM_EntityLittleMaid.class,
-				maidClass, EntityLittleMaidEx.class);
+		final GenerateClassName generateClassName = getGenerateMaidClassName(maidClass);
 		Class<?> n;
 		try {
-			n =
-					Class.forName(generateClassName.getNewGenarateClassName().getFqn().getName());
+			n = Class.forName(generateClassName.getNewGenarateClassName().getFqn().getName());
 			Constructor<?> constructor = n.getConstructor(new Class<?>[] { LMM_EntityLittleMaid.class });
 			LMM_EntityLittleMaid newMaid = (LMM_EntityLittleMaid) constructor.newInstance(maid);
 			return newMaid;
@@ -37,21 +48,27 @@ public class ClassGenerateMaidChanger {
 		return maid;
 	}
 
+	private GenerateClassName getGenerateMaidClassName(Class<?> maidClass) {
+		final GenerateClassName generateClassName = new ExtendedClassSupport.GenerateClassName(
+				BaseEntityLittleMaidEx.class, LMM_EntityLittleMaid.class, maidClass, EntityLittleMaidEx.class);
+		return generateClassName;
+	}
+
 	@LMMExChanger.Validate
 	private int validate(LMM_EntityLittleMaid maid) {
 		Class<?> maidClass = maid.getClass();
-		final GenerateClassName generateClassName = new ExtendedClassSupport.GenerateClassName(
-				BaseEntityLittleMaidEx.class,
-				LMM_EntityLittleMaid.class,
-				maidClass, EntityLittleMaidEx.class);
+		if (canGenarate(maidClass)) {
+			return 0;
+		}
+
+		final GenerateClassName generateClassName = getGenerateMaidClassName(maidClass);
 		try {
 			Class.forName(generateClassName.getNewGenarateClassName().getFqn().getName());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return 0;
 		}
-
-		return maid.getClass() != LMM_EntityLittleMaid.class && maid instanceof LMM_EntityLittleMaid ? 2 : 0;
+		return 20;
 	}
 
 }

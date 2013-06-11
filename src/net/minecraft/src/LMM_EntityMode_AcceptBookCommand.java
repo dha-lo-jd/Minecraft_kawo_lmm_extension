@@ -11,10 +11,12 @@ import net.minecraft.src.BookCommandProcessor.State;
 import org.lo.d.commons.books.BookReaderSupport.BookCommandBean;
 import org.lo.d.commons.books.BookReaderSupport.BookCommandBeanFactory;
 import org.lo.d.minecraft.littlemaid.LMMExtension;
+import org.lo.d.minecraft.littlemaid.LittleMaidModeConfiguration;
 import org.lo.d.minecraft.littlemaid.entity.EntityLittleMaidEx;
 
 import com.google.common.collect.Sets;
 
+@LittleMaidModeConfiguration
 public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 
 	public static class ModeAlias {
@@ -41,9 +43,7 @@ public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 			AbstractBookCommandProcessor<ModeChangeBookCommandProcessor.MaidModeCommand> {
 		private static class MaidModeCommand implements BookCommandBean {
 			@Required
-			@Aliases({
-					@Alias("m")
-			})
+			@Aliases({ @Alias("m") })
 			String mode;
 		}
 
@@ -88,25 +88,17 @@ public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 
 	}
 
-	public static final int MODE_ID = 0x0a03;
 	public static final String MODE_NAME = "AcceptBookCommand";
 
-	protected static final Set<ModeAlias> modes;
-	protected static final Set<BookCommandProcessor<?>> processors;
+	@LittleMaidModeConfiguration.ResolveModeId(modeName = MODE_NAME)
+	public static int MODE_ID = 0x0a03;
 
+	protected static final Set<ModeAlias> modes;
+
+	protected static final Set<BookCommandProcessor<?>> processors;
 	static {
 		{
 			Set<ModeAlias> set = Sets.newHashSet();
-			set.add(new ModeAlias(LMM_EntityMode_Archer.mmode_Archer, "Archer", "Ar"));
-			set.add(new ModeAlias(LMM_EntityMode_Archer.mmode_Blazingstar, "Blazingstar", "Blz"));
-			set.add(new ModeAlias(LMM_EntityMode_Basic.mmode_Escorter, "Escorter", "Es"));
-			set.add(new ModeAlias(LMM_EntityMode_Cooking.mmode_Cooking, "Cooking", "Co"));
-			set.add(new ModeAlias(LMM_EntityMode_Fencer.mmode_Fencer, "Fencer", "Fe"));
-			set.add(new ModeAlias(LMM_EntityMode_Fencer.mmode_Bloodsucker, "Bloodsucker", "Bld"));
-			set.add(new ModeAlias(LMM_EntityMode_Healer.mmode_Healer, "Healer", "He"));
-			set.add(new ModeAlias(LMM_EntityMode_Pharmacist.mmode_Pharmacist, "Pharmacist", "Ph"));
-			set.add(new ModeAlias(LMM_EntityMode_Ripper.mmode_Ripper, "Ripper", "Ri"));
-			set.add(new ModeAlias(LMM_EntityMode_Torcher.mmode_Torcher, "Torcher", "To"));
 			modes = set;
 		}
 		{
@@ -125,6 +117,19 @@ public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 		return modes.add(alias);
 	}
 
+	public static void setupDefaultModeCommands() {
+		add(new ModeAlias(LMM_EntityMode_Archer.mmode_Archer, "Archer", "Ar"));
+		add(new ModeAlias(LMM_EntityMode_Archer.mmode_Blazingstar, "Blazingstar", "Blz"));
+		add(new ModeAlias(LMM_EntityMode_Basic.mmode_Escorter, "Escorter", "Es"));
+		add(new ModeAlias(LMM_EntityMode_Cooking.mmode_Cooking, "Cooking", "Co"));
+		add(new ModeAlias(LMM_EntityMode_Fencer.mmode_Fencer, "Fencer", "Fe"));
+		add(new ModeAlias(LMM_EntityMode_Fencer.mmode_Bloodsucker, "Bloodsucker", "Bld"));
+		add(new ModeAlias(LMM_EntityMode_Healer.mmode_Healer, "Healer", "He"));
+		add(new ModeAlias(LMM_EntityMode_Pharmacist.mmode_Pharmacist, "Pharmacist", "Ph"));
+		add(new ModeAlias(LMM_EntityMode_Ripper.mmode_Ripper, "Ripper", "Ri"));
+		add(new ModeAlias(LMM_EntityMode_Torcher.mmode_Torcher, "Torcher", "To"));
+	}
+
 	public LMM_EntityMode_AcceptBookCommand(LMM_EntityLittleMaid pEntity) {
 		super(pEntity);
 	}
@@ -141,6 +146,11 @@ public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 	public boolean changeMode(EntityPlayer pentityplayer) {
 		ItemStack litemstack = owner.maidInventory.getStackInSlot(0);
 		return changeMode(litemstack, false);
+	}
+
+	@Override
+	public void init() {
+		super.init();
 	}
 
 	@Override
