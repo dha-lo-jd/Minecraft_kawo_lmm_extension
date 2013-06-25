@@ -1,15 +1,22 @@
 package org.lo.d.minecraft.littlemaid.mode;
 
+import java.util.List;
+
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.src.LMM_ContainerInventory;
 import net.minecraft.src.LMM_EntityLittleMaid;
 import net.minecraft.src.LMM_EntityModeBase;
-import net.minecraft.src.LMM_GuiInventory;
 import net.minecraft.src.ModLoader;
 
+import org.lo.d.minecraft.littlemaid.MaidExIcon;
+
+import com.google.common.collect.Lists;
+
 public abstract class LMM_EntityModeBaseEx extends LMM_EntityModeBase implements LMMModeExGuiHandler,
-		LMMModeExAIHandler, LMMModeExInteractHandler, LMMModeExHandleHealthUpdateHandler, LMMModeExNBTHandler {
+		LMMModeExAIHandler, LMMModeExInteractHandler, LMMModeExHandleHealthUpdateHandler, LMMModeExNBTHandler,
+		LMMModeExIconHandler {
 
 	public LMM_EntityModeBaseEx(LMM_EntityLittleMaid pEntity) {
 		super(pEntity);
@@ -21,12 +28,17 @@ public abstract class LMM_EntityModeBaseEx extends LMM_EntityModeBase implements
 	}
 
 	@Override
-	public LMM_ContainerInventory getContainerInventory(EntityPlayer player, LMM_EntityLittleMaid maid, int maidMode) {
+	public Container getContainerInventory(final int guiId, EntityPlayer player, LMM_EntityLittleMaid maid, int maidMode) {
 		return null;
 	}
 
 	@Override
-	public LMM_GuiInventory getOpenGuiInventory(EntityPlayer var1, LMM_EntityLittleMaid maid, int maidMode) {
+	public List<MaidExIcon> getIcons(int maidMode) {
+		return Lists.newArrayList();
+	}
+
+	@Override
+	public GuiContainer getOpenGuiInventory(final int guiId, EntityPlayer var1, LMM_EntityLittleMaid maid, int maidMode) {
 		return null;
 	}
 

@@ -12,8 +12,6 @@ import org.lo.d.minecraft.littlemaid.entity.EntityLittleMaidEx;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.common.registry.EntityRegistry;
-
 public class GeneratedMaidEntityClassProvidor implements ReflectionSupport.Worker {
 
 	private final Configuration config;
@@ -60,9 +58,7 @@ public class GeneratedMaidEntityClassProvidor implements ReflectionSupport.Worke
 			System.out.println();
 			System.out.println();
 			System.out.println();
-			int entityId = EntityRegistry.findGlobalUniqueEntityId();
-			EntityRegistry.registerModEntity(genClass, genClass.getSimpleName(), entityId, LMMExtension.instance, 80,
-					3, true);
+			LMMExtension.sideProxy.registMaidEntityAndRenderers(maidClass, genClass.getSimpleName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

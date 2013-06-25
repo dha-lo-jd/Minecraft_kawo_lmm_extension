@@ -65,7 +65,6 @@ public class ClassGenerateMaidChanger {
 		try {
 			Class.forName(generateClassName.getNewGenarateClassName().getFqn().getName());
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 			return 0;
 		}
 		return 20;

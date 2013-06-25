@@ -2,13 +2,9 @@ package org.lo.d.minecraft.littlemaid.mode.strategy;
 
 public interface Strategy {
 	public static abstract class DefaultImpl implements Strategy {
-		@Override
-		public void onChangeStrategy() {
-		}
 
 		@Override
-		public boolean onCurrentStrategyUpdate() {
-			return false;
+		public void onChangeStrategy() {
 		}
 
 		@Override
@@ -29,16 +25,30 @@ public interface Strategy {
 		}
 	}
 
+	/**
+	 * カレントのStrategyが他のStrategyに変更された時のイベント
+	 */
 	public abstract void onChangeStrategy();
 
-	public abstract boolean onCurrentStrategyUpdate();
-
+	/**
+	 * カレントのStrategyのTickごとイベント
+	 */
 	public abstract void onUpdateStrategy();
 
+	/**
+	 * StrategyをカレントStrategyとすべきかどうか
+	 * @return
+	 */
 	public abstract boolean shouldStrategy();
 
+	/**
+	 * StrategyがカレントStrategyになった後の初回呼び出し
+	 */
 	public abstract void startStrategy();
 
+	/**
+	 * Strategyの停止処理
+	 */
 	public abstract void stopStrategy();
 
 }

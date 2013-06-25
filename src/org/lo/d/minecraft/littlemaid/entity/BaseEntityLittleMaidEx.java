@@ -34,8 +34,7 @@ public class BaseEntityLittleMaidEx extends LMM_EntityLittleMaid implements Enti
 
 	@Override
 	public float getAIMoveSpeed() {
-		float speed = LMMExtension.delegateModeExs(LMMModeExAIHandler.class, this,
-				new ModeExAIMoveSpeedWorker());
+		float speed = LMMExtension.delegateModeExs(LMMModeExAIHandler.class, this, new ModeExAIMoveSpeedWorker());
 		if (speed < 0) {
 			return super.getAIMoveSpeed();
 		}
@@ -59,6 +58,7 @@ public class BaseEntityLittleMaidEx extends LMM_EntityLittleMaid implements Enti
 		LMM_EntityModeBase mode = getActiveModeClass();
 		if (mode instanceof LMMModeExInteractHandler) {
 			if (((LMMModeExInteractHandler) mode).overInteract(par1EntityPlayer)) {
+				System.out.println("overInteract");
 				return true;
 			}
 		}
@@ -69,15 +69,13 @@ public class BaseEntityLittleMaidEx extends LMM_EntityLittleMaid implements Enti
 	public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound) {
 		final NBTTagCompound finalTagCompound = par1nbtTagCompound;
 		super.readEntityFromNBT(finalTagCompound);
-		LMMExtension.delegateModeExs(LMMModeExNBTHandler.class, this,
-				new ReadEntityFromNBTWorker(finalTagCompound));
+		LMMExtension.delegateModeExs(LMMModeExNBTHandler.class, this, new ReadEntityFromNBTWorker(finalTagCompound));
 	}
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
 		final NBTTagCompound finalTagCompound = par1nbtTagCompound;
 		super.writeEntityToNBT(finalTagCompound);
-		LMMExtension.delegateModeExs(LMMModeExNBTHandler.class, this,
-				new WriteEntityToNBTWorker(finalTagCompound));
+		LMMExtension.delegateModeExs(LMMModeExNBTHandler.class, this, new WriteEntityToNBTWorker(finalTagCompound));
 	}
 }

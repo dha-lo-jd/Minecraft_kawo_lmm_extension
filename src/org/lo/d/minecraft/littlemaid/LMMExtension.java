@@ -19,20 +19,21 @@ import org.lo.d.minecraft.littlemaid.LMMExtension.ModeExWorker.State;
 import org.lo.d.minecraft.littlemaid.entity.BaseEntityLittleMaidEx;
 import org.lo.d.minecraft.littlemaid.entity.EntityLittleMaidEx;
 import org.lo.d.minecraft.littlemaid.mode.LMMModeExHandler;
+import org.lo.d.minecraft.littlemaid.networkproxy.LMMExNetworkSideProxy;
 
 import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
 
 @Mod(modid = "LMMExtension", name = "Kawo_LMM_Extension", version = "0.0.1")
-@NetworkMod(clientSideRequired = true, serverSideRequired = false, channels = { "", })
+@NetworkMod(clientSideRequired = true, serverSideRequired = false)
 @ConfigurationMod
 public class LMMExtension {
 
@@ -58,6 +59,9 @@ public class LMMExtension {
 
 	@Instance("LMMExtension")
 	public static LMMExtension instance;
+
+	@SidedProxy(clientSide = "org.lo.d.minecraft.littlemaid.networkproxy.LMMExClientSideProxy", serverSide = "org.lo.d.minecraft.littlemaid.networkproxy.LMMExNetworkSideProxy")
+	public static LMMExNetworkSideProxy sideProxy;
 
 	private static final EntityLittleMaidSpawnEventHandler MAID_SPAWN_EVENT_HANDLER = new EntityLittleMaidSpawnEventHandler();
 
@@ -119,10 +123,8 @@ public class LMMExtension {
 	public void init(FMLInitializationEvent event) {
 		ReflectionSupport.getClasses("", classWorkers);
 
-		int entityId = EntityRegistry.findGlobalUniqueEntityId();
-		EntityRegistry.registerModEntity(BaseEntityLittleMaidEx.class, "EntityLittleMaidEx", entityId, this, 80, 3,
-				true);
-		NetworkRegistry.instance().registerGuiHandler(this, new LMMExGuiHandler());
+		sideProxy.registMaidEntityAndRenderers(BaseEntityLittleMaidEx.class, "EntityLittleMaidEx");
+		NetworkRegistry.instance().registerGuiHandler(instance, sideProxy);
 		MinecraftForge.EVENT_BUS.register(MAID_SPAWN_EVENT_HANDLER);
 	}
 

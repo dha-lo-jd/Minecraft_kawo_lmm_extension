@@ -1,9 +1,9 @@
 package org.lo.d.minecraft.littlemaid.mode;
 
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.src.LMM_ContainerInventory;
+import net.minecraft.inventory.Container;
 import net.minecraft.src.LMM_EntityLittleMaid;
-import net.minecraft.src.LMM_GuiInventory;
 
 public interface LMMModeExGuiHandler extends LMMModeExHandler {
 
@@ -13,7 +13,7 @@ public interface LMMModeExGuiHandler extends LMMModeExHandler {
 	 * @param lentity
 	 * @return
 	 */
-	public LMM_ContainerInventory getContainerInventory(EntityPlayer player, LMM_EntityLittleMaid maid, int maidMode);
+	public Container getContainerInventory(int guiId, EntityPlayer player, LMM_EntityLittleMaid maid, int maidMode);
 
 	/**
 	 * 開かせたい拡張インベントリ
@@ -21,5 +21,5 @@ public interface LMMModeExGuiHandler extends LMMModeExHandler {
 	 * @param lentity
 	 * @return
 	 */
-	public LMM_GuiInventory getOpenGuiInventory(EntityPlayer var1, LMM_EntityLittleMaid maid, int maidMode);
+	public GuiContainer getOpenGuiInventory(int guiId, EntityPlayer var1, LMM_EntityLittleMaid maid, int maidMode);
 }

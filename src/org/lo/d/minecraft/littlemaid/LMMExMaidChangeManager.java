@@ -65,6 +65,7 @@ public class LMMExMaidChangeManager {
 				return maid;
 			}
 			newMaid.copyDataFrom(maid, true);
+			System.out.println("change uninstall: " + newMaid);
 			return newMaid;
 		}
 

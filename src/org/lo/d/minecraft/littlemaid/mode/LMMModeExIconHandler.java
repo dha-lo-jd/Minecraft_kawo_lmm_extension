@@ -1,11 +1,9 @@
 package org.lo.d.minecraft.littlemaid.mode;
 
-import net.minecraft.src.LMM_EntityLittleMaid;
+import java.util.List;
+
+import org.lo.d.minecraft.littlemaid.MaidExIcon;
 
 public interface LMMModeExIconHandler extends LMMModeExHandler {
-	public float getAIMoveSpeed(LMM_EntityLittleMaid maid, int maidMode);
-
-	public TaskState onValidateTask(LMM_EntityLittleMaid maid, int maidMode);
-
-	public void updateTask(LMM_EntityLittleMaid maid, int maidMode);
+	public List<MaidExIcon> getIcons(int maidMode);
 }

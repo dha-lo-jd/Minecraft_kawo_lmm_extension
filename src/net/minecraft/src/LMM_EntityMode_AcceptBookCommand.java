@@ -10,7 +10,6 @@ import net.minecraft.src.BookCommandProcessor.State;
 
 import org.lo.d.commons.books.BookReaderSupport.BookCommandBean;
 import org.lo.d.commons.books.BookReaderSupport.BookCommandBeanFactory;
-import org.lo.d.minecraft.littlemaid.LMMExtension;
 import org.lo.d.minecraft.littlemaid.LittleMaidModeConfiguration;
 import org.lo.d.minecraft.littlemaid.entity.EntityLittleMaidEx;
 
@@ -22,16 +21,23 @@ public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 	public static class ModeAlias {
 		private final String[] keys;
 
-		final int modeId;
+		private final int modeId;
 
-		public ModeAlias(int modeId, String... aliases) {
+		private final boolean allowNotExMaid;
+
+		public ModeAlias(int modeId, boolean allowNotExMaid, String... aliases) {
 			keys = aliases;
 			this.modeId = modeId;
+			this.allowNotExMaid = allowNotExMaid;
+		}
+
+		public ModeAlias(int modeId, String... aliases) {
+			this(modeId, false, aliases);
 		}
 
 		public boolean hasValue(String alias) {
 			for (String k : keys) {
-				if (k.toUpperCase().equals(alias)) {
+				if (k.toUpperCase().equals(alias.toUpperCase())) {
 					return true;
 				}
 			}
@@ -56,6 +62,9 @@ public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 				}
 				for (ModeAlias alias : LMM_EntityMode_AcceptBookCommand.modes) {
 					if (alias.hasValue(command.mode)) {
+						if (!alias.allowNotExMaid && !(owner instanceof EntityLittleMaidEx)) {
+							continue;
+						}
 						if (alias.modeId == owner.getMaidModeInt()) {
 							break;
 						}
@@ -65,9 +74,6 @@ public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 								owner.worldObj.setEntityState(owner, (byte) 11);
 								owner.playSound("random.pop");
 							}
-						}
-						if (!(owner instanceof EntityLittleMaidEx)) {
-							owner.isDead = true;
 						}
 						return State.CONTINUE_AND_EXIT;
 					}
@@ -118,16 +124,16 @@ public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 	}
 
 	public static void setupDefaultModeCommands() {
-		add(new ModeAlias(LMM_EntityMode_Archer.mmode_Archer, "Archer", "Ar"));
-		add(new ModeAlias(LMM_EntityMode_Archer.mmode_Blazingstar, "Blazingstar", "Blz"));
-		add(new ModeAlias(LMM_EntityMode_Basic.mmode_Escorter, "Escorter", "Es"));
-		add(new ModeAlias(LMM_EntityMode_Cooking.mmode_Cooking, "Cooking", "Co"));
-		add(new ModeAlias(LMM_EntityMode_Fencer.mmode_Fencer, "Fencer", "Fe"));
-		add(new ModeAlias(LMM_EntityMode_Fencer.mmode_Bloodsucker, "Bloodsucker", "Bld"));
-		add(new ModeAlias(LMM_EntityMode_Healer.mmode_Healer, "Healer", "He"));
-		add(new ModeAlias(LMM_EntityMode_Pharmacist.mmode_Pharmacist, "Pharmacist", "Ph"));
-		add(new ModeAlias(LMM_EntityMode_Ripper.mmode_Ripper, "Ripper", "Ri"));
-		add(new ModeAlias(LMM_EntityMode_Torcher.mmode_Torcher, "Torcher", "To"));
+		add(new ModeAlias(LMM_EntityMode_Archer.mmode_Archer, true, "Archer", "Ar"));
+		add(new ModeAlias(LMM_EntityMode_Archer.mmode_Blazingstar, true, "Blazingstar", "Blz"));
+		add(new ModeAlias(LMM_EntityMode_Basic.mmode_Escorter, true, "Escorter", "Es"));
+		add(new ModeAlias(LMM_EntityMode_Cooking.mmode_Cooking, true, "Cooking", "Co"));
+		add(new ModeAlias(LMM_EntityMode_Fencer.mmode_Fencer, true, "Fencer", "Fe"));
+		add(new ModeAlias(LMM_EntityMode_Fencer.mmode_Bloodsucker, true, "Bloodsucker", "Bld"));
+		add(new ModeAlias(LMM_EntityMode_Healer.mmode_Healer, true, "Healer", "He"));
+		add(new ModeAlias(LMM_EntityMode_Pharmacist.mmode_Pharmacist, true, "Pharmacist", "Ph"));
+		add(new ModeAlias(LMM_EntityMode_Ripper.mmode_Ripper, true, "Ripper", "Ri"));
+		add(new ModeAlias(LMM_EntityMode_Torcher.mmode_Torcher, true, "Torcher", "To"));
 	}
 
 	public LMM_EntityMode_AcceptBookCommand(LMM_EntityLittleMaid pEntity) {
@@ -167,19 +173,17 @@ public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 	}
 
 	private boolean changeMode(ItemStack litemstack, boolean overInteract) {
-		LMM_EntityLittleMaid currentMaid = LMMExtension.changeMaidToEx(owner);
-
 		boolean isExit = false;
 		for (BookCommandProcessor<?> processor : processors) {
-			State state = processor.doBookCommandProcess(currentMaid, litemstack, overInteract);
+			State state = processor.doBookCommandProcess(owner, litemstack, overInteract);
 			switch (state) {
 			case BREAK:
 				return false;
 			case CONTINUE:
-				break;
+				continue;
 			case CONTINUE_AND_EXIT:
 				isExit = true;
-				break;
+				continue;
 			}
 		}
 
