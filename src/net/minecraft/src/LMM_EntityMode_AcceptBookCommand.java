@@ -142,10 +142,6 @@ public class LMM_EntityMode_AcceptBookCommand extends LMM_EntityModeBase {
 
 	@Override
 	public void addEntityMode(EntityAITasks pDefaultMove, EntityAITasks pDefaultTargeting) {
-		EntityAITasks[] ltasks = new EntityAITasks[2];
-		ltasks[0] = pDefaultMove;
-		owner.addMaidMode(ltasks, MODE_NAME, MODE_ID);
-
 	}
 
 	@Override

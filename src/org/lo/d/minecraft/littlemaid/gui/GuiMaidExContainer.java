@@ -130,7 +130,8 @@ public class GuiMaidExContainer extends GuiTabContainer implements GuiTabContain
 
 	@Override
 	public Point2D getFixedDrawPoint(Point2D tabDrawPoint, int tabIndex) {
-		int x = (width - (tabs.size() * TAB_WIDTH)) / 2;//中央寄せ
+		//		int x = (width - (tabs.size() * TAB_WIDTH)) / 2;//中央寄せ
+		int x = screen.guiLeft + screen.xSize + 16;
 		x = x + TAB_WIDTH * tabIndex;//現在のタブ位置までずらす
 		int y = height - TAB_HEIGHT;
 		return new Point2D(x, y);

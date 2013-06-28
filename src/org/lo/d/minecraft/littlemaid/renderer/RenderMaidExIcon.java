@@ -13,13 +13,14 @@ import org.lwjgl.opengl.GL12;
 
 public class RenderMaidExIcon {
 
+	public double zLevel = 0.0D;
+
 	public void render(final MaidExIcon icon, final Point3DDouble renderPos, final float par8, final float par9,
 			final RenderManager renderManager) {
 		final FontRenderer fontRenderer = renderManager.getFontRenderer();
 
 		final float w = 4F / 16F;
 		final float h = 4F / 16F;
-		final double offset = icon.getOffsetX();
 
 		//OpenGL描画プロセス開始
 		SafetyGL.safetyGLProcess(new SafetyGL.Processor() {
@@ -27,11 +28,6 @@ public class RenderMaidExIcon {
 			public void process(SafetyGL safetyGL) {
 				safetyGL.pushMatrix();
 				Point3DRenderSupport.glTranslatef(renderPos);
-				GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-
-				resetRotationFromPlayerViewRotate(renderManager);
-
-				GL11.glTranslatef((float) -offset, 0, 0);
 
 				drawIcon(safetyGL, icon, renderManager, w, h);
 
@@ -52,19 +48,28 @@ public class RenderMaidExIcon {
 			 * @param w
 			 * @param h
 			 */
-			private void drawIcon(SafetyGL safetyGL, MaidExIcon icon, RenderManager renderManager, float w, float h) {
-				safetyGL.enable(GL12.GL_RESCALE_NORMAL);
-				safetyGL.disable(GL11.GL_LIGHTING);
-				safetyGL.disable(GL11.GL_BLEND);
-				safetyGL.enable(GL11.GL_TEXTURE_2D);
-				renderManager.renderEngine.bindTexture(icon.getTexture());
-				Tessellator tessellator = Tessellator.instance;
-				tessellator.startDrawingQuads();
-				tessellator.addVertexWithUV(0.0F - w / 2, 0.0F - h / 2, 0.0D, 1, 1);
-				tessellator.addVertexWithUV(w - w / 2, 0.0F - h / 2, 0.0D, 0, 1);
-				tessellator.addVertexWithUV(w - w / 2, h - h / 2, 0.0D, 0, 0);
-				tessellator.addVertexWithUV(0.0F - w / 2, h - h / 2, 0.0D, 1, 0);
-				tessellator.draw();
+			private void drawIcon(SafetyGL safetyGL, final MaidExIcon icon, final RenderManager renderManager,
+					final float w, final float h) {
+				SafetyGL.safetyGLProcess(new SafetyGL.Processor() {
+					@Override
+					public void process(SafetyGL safetyGL) {
+						safetyGL.pushMatrix();
+						GL11.glTranslatef(w / 2, h / 2, 0);
+
+						safetyGL.enable(GL12.GL_RESCALE_NORMAL);
+						safetyGL.disable(GL11.GL_LIGHTING);
+						safetyGL.disable(GL11.GL_BLEND);
+						safetyGL.enable(GL11.GL_TEXTURE_2D);
+						renderManager.renderEngine.bindTexture(icon.getTexture());
+						Tessellator tessellator = Tessellator.instance;
+						tessellator.startDrawingQuads();
+						tessellator.addVertexWithUV(0, h, zLevel, 0, 0);
+						tessellator.addVertexWithUV(w, h, zLevel, 1, 0);
+						tessellator.addVertexWithUV(w, 0, zLevel, 1, 1);
+						tessellator.addVertexWithUV(0, 0, zLevel, 0, 1);
+						tessellator.draw();
+					}
+				});
 			}
 
 			/**
@@ -76,38 +81,11 @@ public class RenderMaidExIcon {
 			private void drawText(final MaidExIcon icon, final FontRenderer fontRenderer, SafetyGL safetyGL) {
 				String iconString = icon.getText();
 				int color = icon.getTextColor();
-				double leftPos = fontRenderer.getStringWidth(iconString) / 2.0D;
 
-				/*
-				 * 文字の影描画
-				 */
-				{
-					safetyGL.enable(GL11.GL_BLEND);
-					safetyGL.enable(GL11.GL_TEXTURE_2D);
-					safetyGL.disable(GL11.GL_LIGHTING);
-					safetyGL.disable(GL11.GL_DEPTH_TEST);
-					GL11.glDepthMask(false);
-					GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-					int bgcolor = (color & 16579836) >> 2 | color & -16777216;
-					fontRenderer.drawString(iconString, (int) (-leftPos) + 1, 1 - 16, bgcolor);
-				}
-
-				/*
-				 * 文字の描画
-				 */
-				{
-					safetyGL.disable(GL11.GL_BLEND);
-					fontRenderer.drawString(iconString, (int) (-leftPos), 0 - 16, color);
-				}
-			}
-
-			/**
-			 * プレイヤー視点に合わせたカメラの回転をリセット(画面に対して縦横を平行にする)
-			 * @param renderManager
-			 */
-			private void resetRotationFromPlayerViewRotate(final RenderManager renderManager) {
-				GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-				GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+				safetyGL.enable(GL11.GL_BLEND);
+				safetyGL.enable(GL11.GL_TEXTURE_2D);
+				safetyGL.disable(GL11.GL_LIGHTING);
+				fontRenderer.drawStringWithShadow(iconString, -4, 1 - 16 - 2, color);
 			}
 		});
 

@@ -13,6 +13,7 @@ import org.lo.d.commons.configuration.ConfigurationSupport;
 import org.lo.d.commons.configuration.ConfigurationSupport.BooleanConfig;
 import org.lo.d.commons.configuration.ConfigurationSupport.ConfigurationMod;
 import org.lo.d.commons.configuration.ConfigurationSupport.IntConfig;
+import org.lo.d.commons.network.KawoCommonsPacketHandler;
 import org.lo.d.commons.reflections.ReflectionSupport;
 import org.lo.d.commons.reflections.ReflectionSupport.Worker;
 import org.lo.d.minecraft.littlemaid.LMMExtension.ModeExWorker.State;
@@ -67,6 +68,9 @@ public class LMMExtension {
 
 	@IntConfig(defaultValue = 0, name = "guiId")
 	public static int guiId;
+
+	@BooleanConfig(defaultValue = true, name = "SugarCountVisible")
+	public static boolean sugarCountVisible;
 
 	@BooleanConfig(defaultValue = true, name = "enablePresetMaidModeCommands", comment = "書ける本での指示で、デフォルトで用意された各モードへの変更を可能にします")
 	public static boolean enablePresetMaidModeCommands;
@@ -151,5 +155,7 @@ public class LMMExtension {
 		if (enablePresetMaidModeCommands) {
 			LMM_EntityMode_AcceptBookCommand.setupDefaultModeCommands();
 		}
+
+		LMMExtension.registClassWorkers(new KawoCommonsPacketHandler());
 	}
 }

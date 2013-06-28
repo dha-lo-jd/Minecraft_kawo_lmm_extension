@@ -16,7 +16,7 @@ import com.google.common.collect.Lists;
 
 public abstract class LMM_EntityModeBaseEx extends LMM_EntityModeBase implements LMMModeExGuiHandler,
 		LMMModeExAIHandler, LMMModeExInteractHandler, LMMModeExHandleHealthUpdateHandler, LMMModeExNBTHandler,
-		LMMModeExIconHandler {
+		LMMModeExIconHandler, LMMModeExSugarCountHandler {
 
 	public LMM_EntityModeBaseEx(LMM_EntityLittleMaid pEntity) {
 		super(pEntity);
@@ -33,6 +33,11 @@ public abstract class LMM_EntityModeBaseEx extends LMM_EntityModeBase implements
 	}
 
 	@Override
+	public float getIconHeight(int maidMode) {
+		return 0;
+	}
+
+	@Override
 	public List<MaidExIcon> getIcons(int maidMode) {
 		return Lists.newArrayList();
 	}
@@ -40,6 +45,11 @@ public abstract class LMM_EntityModeBaseEx extends LMM_EntityModeBase implements
 	@Override
 	public GuiContainer getOpenGuiInventory(final int guiId, EntityPlayer var1, LMM_EntityLittleMaid maid, int maidMode) {
 		return null;
+	}
+
+	@Override
+	public int getSugarAmount() {
+		return 0;
 	}
 
 	@Override
