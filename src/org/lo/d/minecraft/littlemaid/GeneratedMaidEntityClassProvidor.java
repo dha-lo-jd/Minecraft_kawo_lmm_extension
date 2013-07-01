@@ -1,6 +1,5 @@
 package org.lo.d.minecraft.littlemaid;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.src.LMM_EntityLittleMaid;
 import net.minecraftforge.common.Configuration;
 
@@ -46,7 +45,7 @@ public class GeneratedMaidEntityClassProvidor implements ReflectionSupport.Worke
 			Class<?> c = ExtendedClassSupport.loadAndGenerateNewExtendedClass(BaseEntityLittleMaidEx.class,
 					LMM_EntityLittleMaid.class, maidClass, EntityLittleMaidEx.class, Lists.<Class<?>> newArrayList());
 			@SuppressWarnings("unchecked")
-			Class<? extends Entity> genClass = (Class<? extends Entity>) c;
+			Class<? extends LMM_EntityLittleMaid> genClass = (Class<? extends LMM_EntityLittleMaid>) c;
 			System.out.println();
 			System.out.println();
 			System.out.println();
@@ -58,7 +57,7 @@ public class GeneratedMaidEntityClassProvidor implements ReflectionSupport.Worke
 			System.out.println();
 			System.out.println();
 			System.out.println();
-			LMMExtension.sideProxy.registMaidEntityAndRenderers(maidClass, genClass.getSimpleName());
+			LMMExtension.sideProxy.registMaidEntityAndRenderers(genClass, genClass.getSimpleName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

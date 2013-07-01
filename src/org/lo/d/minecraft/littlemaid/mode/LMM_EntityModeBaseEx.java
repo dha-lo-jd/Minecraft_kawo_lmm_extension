@@ -8,15 +8,28 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.src.LMM_EntityLittleMaid;
 import net.minecraft.src.LMM_EntityModeBase;
-import net.minecraft.src.ModLoader;
 
 import org.lo.d.minecraft.littlemaid.MaidExIcon;
 
 import com.google.common.collect.Lists;
 
+import cpw.mods.fml.common.registry.LanguageRegistry;
+
 public abstract class LMM_EntityModeBaseEx extends LMM_EntityModeBase implements LMMModeExGuiHandler,
 		LMMModeExAIHandler, LMMModeExInteractHandler, LMMModeExHandleHealthUpdateHandler, LMMModeExNBTHandler,
 		LMMModeExIconHandler, LMMModeExSugarCountHandler {
+
+	public static abstract class JPNameProvider {
+		public abstract String getLocalization();
+
+		public String getLocalizationFreedom() {
+			return getLocalization();
+		}
+
+		public String getLocalizationTracer() {
+			return getLocalization();
+		}
+	}
 
 	public LMM_EntityModeBaseEx(LMM_EntityLittleMaid pEntity) {
 		super(pEntity);
@@ -95,9 +108,24 @@ public abstract class LMM_EntityModeBaseEx extends LMM_EntityModeBase implements
 		}
 	}
 
+	protected void addLocalization(String modeName, JPNameProvider nameProvider) {
+		addLocalization(modeName);
+
+		String prefix = "littleMaidMob.mode";
+		addLocalizationJp(prefix, "", modeName, nameProvider.getLocalization());
+		addLocalizationJp(prefix, "F-", modeName, nameProvider.getLocalizationFreedom());
+		addLocalizationJp(prefix, "T-", modeName, nameProvider.getLocalizationTracer());
+	}
+
 	protected void addLocalization(String keyPrefix, String prefix, String modeName) {
 		String name = prefix + modeName;
 		String key = new StringBuilder(keyPrefix).append(".").append(name).toString();
-		ModLoader.addLocalization(key, name);
+		LanguageRegistry.instance().addStringLocalization(key, name);
+	}
+
+	protected void addLocalizationJp(String keyPrefix, String prefix, String modeName, String jpName) {
+		String name = prefix + modeName;
+		String key = new StringBuilder(keyPrefix).append(".").append(name).toString();
+		LanguageRegistry.instance().addStringLocalization(key, "ja_JP", jpName);
 	}
 }

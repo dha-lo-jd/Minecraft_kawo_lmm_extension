@@ -1,6 +1,5 @@
 package org.lo.d.minecraft.littlemaid.entity;
 
-import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.entity.ai.EntityAITasks;

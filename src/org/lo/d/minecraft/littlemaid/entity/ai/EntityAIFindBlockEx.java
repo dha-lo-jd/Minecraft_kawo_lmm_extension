@@ -13,8 +13,8 @@ public class EntityAIFindBlockEx extends LMM_EntityAIFindBlock {
 
 	@Override
 	public boolean continueExecuting() {
-		if (llmode instanceof LMMModeExAIHandler) {
-			if (((LMMModeExAIHandler) llmode).onValidateTask(theMaid, theMaid.getMaidModeInt()) == TaskState.BREAK) {
+		if (fmodeBase instanceof LMMModeExAIHandler) {
+			if (((LMMModeExAIHandler) fmodeBase).onValidateTask(theMaid, theMaid.getMaidModeInt()) == TaskState.BREAK) {
 				return false;
 			}
 		}
@@ -23,8 +23,8 @@ public class EntityAIFindBlockEx extends LMM_EntityAIFindBlock {
 
 	@Override
 	public boolean shouldExecute() {
-		if (llmode instanceof LMMModeExAIHandler) {
-			if (((LMMModeExAIHandler) llmode).onValidateTask(theMaid, theMaid.getMaidModeInt()) == TaskState.BREAK) {
+		if (fmodeBase instanceof LMMModeExAIHandler) {
+			if (((LMMModeExAIHandler) fmodeBase).onValidateTask(theMaid, theMaid.getMaidModeInt()) == TaskState.BREAK) {
 				return false;
 			}
 		}
@@ -33,8 +33,8 @@ public class EntityAIFindBlockEx extends LMM_EntityAIFindBlock {
 
 	@Override
 	public void updateTask() {
-		if (llmode instanceof LMMModeExAIHandler) {
-			((LMMModeExAIHandler) llmode).updateTask(theMaid, theMaid.getMaidModeInt());
+		if (fmodeBase instanceof LMMModeExAIHandler) {
+			((LMMModeExAIHandler) fmodeBase).updateTask(theMaid, theMaid.getMaidModeInt());
 		}
 		super.updateTask();
 	}

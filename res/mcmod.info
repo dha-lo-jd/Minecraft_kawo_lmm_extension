@@ -1,6 +1,4 @@
-{
-  "modinfoversion": 2,
-  "modlist": [{
+[{
     "modid": "LMMExtension",
     "name": "Kawo LMM Extension",
     "version": "0.0.1",
@@ -10,4 +8,3 @@
     "dependencies": [ "mod_LMM_littleMaidMob" ],
     "useDependencyInformation": "true"
   }]
-}

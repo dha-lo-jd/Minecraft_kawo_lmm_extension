@@ -30,7 +30,8 @@ public class RenderLittleMaidEx extends LMM_RenderLittleMaid {
 	public void doRenderLitlleMaid(LMM_EntityLittleMaid plittleMaid, double px, double py, double pz, float f, float f1) {
 		super.doRenderLitlleMaid(plittleMaid, px, py, pz, f, f1);
 		if (!Minecraft.isGuiEnabled() || Minecraft.getMinecraft().currentScreen != null
-				|| plittleMaid == renderManager.livingPlayer || !plittleMaid.isMaidContract()
+				|| plittleMaid == renderManager.livingPlayer || !plittleMaid.isContract()
+				|| plittleMaid.mstatMasterEntity != renderManager.livingPlayer
 				|| plittleMaid.func_98034_c(Minecraft.getMinecraft().thePlayer)
 				|| plittleMaid != renderManager.field_96451_i || !LMMExtension.sugarCountVisible) {
 			return;

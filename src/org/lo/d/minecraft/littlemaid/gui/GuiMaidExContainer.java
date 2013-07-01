@@ -3,6 +3,7 @@ package org.lo.d.minecraft.littlemaid.gui;
 import java.util.regex.Pattern;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.inventory.GuiTabContainer;
 import net.minecraft.client.renderer.RenderEngine;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +15,6 @@ import org.lo.d.commons.coords.Point2D;
 import org.lo.d.commons.coords.Rect2D;
 import org.lo.d.commons.gl.SafetyGL;
 import org.lo.d.commons.gui.ContainerTab;
-import org.lo.d.commons.gui.GuiTabContainer;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;

@@ -50,7 +50,7 @@ public class LMMExNetworkSideProxy implements IGuiHandler {
 			if (container != null) {
 				return container;
 			}
-			Container lcontainer = new LMM_ContainerInventory(player.inventory, maid.maidInventory);
+			Container lcontainer = new LMM_ContainerInventory(player.inventory, maid);
 			return lcontainer;
 		}
 		return null;
