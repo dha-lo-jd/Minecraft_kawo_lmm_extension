@@ -127,7 +127,7 @@ public class LMMExtension {
 	public void init(FMLInitializationEvent event) {
 		ReflectionSupport.getClasses("", classWorkers);
 
-		sideProxy.registMaidEntityAndRenderers(BaseEntityLittleMaidEx.class, "EntityLittleMaidEx");
+		sideProxy.registMaidEntityAndRenderers(BaseEntityLittleMaidEx.class, 0, "EntityLittleMaidEx");
 		NetworkRegistry.instance().registerGuiHandler(instance, sideProxy);
 		MinecraftForge.EVENT_BUS.register(MAID_SPAWN_EVENT_HANDLER);
 	}

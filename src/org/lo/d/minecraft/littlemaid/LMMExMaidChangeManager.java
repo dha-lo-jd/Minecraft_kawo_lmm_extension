@@ -5,12 +5,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Set;
 
+import org.lo.d.minecraft.littlemaid.entity.BaseEntityLittleMaidEx;
+import org.lo.d.minecraft.littlemaid.entity.EntityLittleMaidEx;
+
 import net.minecraft.src.LMM_EntityLittleMaid;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 
-import org.lo.d.minecraft.littlemaid.entity.BaseEntityLittleMaidEx;
-import org.lo.d.minecraft.littlemaid.entity.EntityLittleMaidEx;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;

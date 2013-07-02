@@ -17,6 +17,8 @@ public class GeneratedMaidEntityClassProvidor implements ReflectionSupport.Worke
 
 	private static final String CONFIG_CATEGORY_NAME = "generate classes";
 
+	private int generatedEntityId = 32;
+
 	public GeneratedMaidEntityClassProvidor(Configuration config) {
 		this.config = config;
 		config.addCustomCategoryComment(CONFIG_CATEGORY_NAME, "メイドさんクラスを拡張したクラスを更に拡張したクラスを生成します");
@@ -57,7 +59,8 @@ public class GeneratedMaidEntityClassProvidor implements ReflectionSupport.Worke
 			System.out.println();
 			System.out.println();
 			System.out.println();
-			LMMExtension.sideProxy.registMaidEntityAndRenderers(genClass, genClass.getSimpleName());
+			LMMExtension.sideProxy
+					.registMaidEntityAndRenderers(genClass, generatedEntityId++, genClass.getSimpleName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

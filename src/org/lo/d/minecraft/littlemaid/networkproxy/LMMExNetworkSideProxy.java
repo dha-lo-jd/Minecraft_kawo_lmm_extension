@@ -56,8 +56,7 @@ public class LMMExNetworkSideProxy implements IGuiHandler {
 		return null;
 	}
 
-	public void registMaidEntityAndRenderers(Class<? extends LMM_EntityLittleMaid> cls, String entityName) {
-		int entityId = EntityRegistry.findGlobalUniqueEntityId();
+	public void registMaidEntityAndRenderers(Class<? extends LMM_EntityLittleMaid> cls, int entityId, String entityName) {
 		EntityRegistry.registerModEntity(cls, entityName, entityId, LMMExtension.instance, 80, 3, true);
 		RenderingRegistry.registerEntityRenderingHandler(cls, new RenderLittleMaidEx(0.3F));
 	}
