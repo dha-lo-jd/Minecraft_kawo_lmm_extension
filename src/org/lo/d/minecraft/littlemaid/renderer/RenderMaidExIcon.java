@@ -9,7 +9,6 @@ import org.lo.d.commons.gl.SafetyGL;
 import org.lo.d.commons.renderer.Point3DRenderSupport;
 import org.lo.d.minecraft.littlemaid.MaidExIcon;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 public class RenderMaidExIcon {
 
@@ -27,6 +26,7 @@ public class RenderMaidExIcon {
 			@Override
 			public void process(SafetyGL safetyGL) {
 				safetyGL.pushMatrix();
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				Point3DRenderSupport.glTranslatef(renderPos);
 
 				drawIcon(safetyGL, icon, renderManager, w, h);
@@ -35,9 +35,6 @@ public class RenderMaidExIcon {
 				GL11.glScalef(-var19, -var19, var19);
 
 				drawText(icon, fontRenderer, safetyGL);
-
-				GL11.glDepthMask(true);
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			}
 
 			/**
@@ -56,7 +53,6 @@ public class RenderMaidExIcon {
 						safetyGL.pushMatrix();
 						GL11.glTranslatef(w / 2, h / 2, 0);
 
-						safetyGL.enable(GL12.GL_RESCALE_NORMAL);
 						safetyGL.disable(GL11.GL_LIGHTING);
 						safetyGL.disable(GL11.GL_BLEND);
 						safetyGL.enable(GL11.GL_TEXTURE_2D);
@@ -82,8 +78,6 @@ public class RenderMaidExIcon {
 				String iconString = icon.getText();
 				int color = icon.getTextColor();
 
-				safetyGL.enable(GL11.GL_BLEND);
-				safetyGL.enable(GL11.GL_TEXTURE_2D);
 				safetyGL.disable(GL11.GL_LIGHTING);
 				fontRenderer.drawStringWithShadow(iconString, -4, 1 - 16 - 2, color);
 			}

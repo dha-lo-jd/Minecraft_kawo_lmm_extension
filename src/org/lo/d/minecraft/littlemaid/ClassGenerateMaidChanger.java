@@ -38,7 +38,9 @@ public class ClassGenerateMaidChanger {
 		Class<?> n;
 		try {
 			n = Class.forName(generateClassName.getNewGenarateClassName().getFqn().getName());
-			Constructor<?> constructor = n.getConstructor(new Class<?>[] { LMM_EntityLittleMaid.class });
+			Constructor<?> constructor = n.getConstructor(new Class<?>[] {
+				LMM_EntityLittleMaid.class
+			});
 			LMM_EntityLittleMaid newMaid = (LMM_EntityLittleMaid) constructor.newInstance(maid);
 			return newMaid;
 		} catch (Exception e) {
@@ -57,7 +59,7 @@ public class ClassGenerateMaidChanger {
 	@LMMExChanger.Validate
 	private int validate(LMM_EntityLittleMaid maid) {
 		Class<?> maidClass = maid.getClass();
-		if (canGenarate(maidClass)) {
+		if (!canGenarate(maidClass)) {
 			return 0;
 		}
 

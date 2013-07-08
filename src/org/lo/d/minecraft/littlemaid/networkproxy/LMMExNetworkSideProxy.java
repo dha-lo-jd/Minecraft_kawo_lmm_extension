@@ -11,9 +11,7 @@ import org.lo.d.minecraft.littlemaid.LMMExtension;
 import org.lo.d.minecraft.littlemaid.LMMExtension.ModeExWorker;
 import org.lo.d.minecraft.littlemaid.entity.EntityLittleMaidEx;
 import org.lo.d.minecraft.littlemaid.mode.LMMModeExGuiHandler;
-import org.lo.d.minecraft.littlemaid.renderer.RenderLittleMaidEx;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.EntityRegistry;
 
@@ -58,6 +56,5 @@ public class LMMExNetworkSideProxy implements IGuiHandler {
 
 	public void registMaidEntityAndRenderers(Class<? extends LMM_EntityLittleMaid> cls, int entityId, String entityName) {
 		EntityRegistry.registerModEntity(cls, entityName, entityId, LMMExtension.instance, 80, 3, true);
-		RenderingRegistry.registerEntityRenderingHandler(cls, new RenderLittleMaidEx(0.3F));
 	}
 }

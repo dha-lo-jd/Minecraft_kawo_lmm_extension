@@ -12,7 +12,9 @@ import org.lo.d.minecraft.littlemaid.LMMExtension;
 import org.lo.d.minecraft.littlemaid.LMMExtension.ModeExWorker;
 import org.lo.d.minecraft.littlemaid.entity.EntityLittleMaidEx;
 import org.lo.d.minecraft.littlemaid.mode.LMMModeExGuiHandler;
+import org.lo.d.minecraft.littlemaid.renderer.RenderLittleMaidEx;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -49,6 +51,12 @@ public class LMMExClientSideProxy extends LMMExNetworkSideProxy {
 			return LMM_Client.getContainerGUI((EntityClientPlayerMP) player, guiId, x, y, z);
 		}
 		return null;
+	}
+
+	@Override
+	public void registMaidEntityAndRenderers(Class<? extends LMM_EntityLittleMaid> cls, int entityId, String entityName) {
+		super.registMaidEntityAndRenderers(cls, entityId, entityName);
+		RenderingRegistry.registerEntityRenderingHandler(cls, new RenderLittleMaidEx(0.3F));
 	}
 
 }
