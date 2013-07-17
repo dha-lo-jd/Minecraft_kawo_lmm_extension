@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import org.lo.d.minecraft.littlemaid.LittleMaidModeConfiguration;
 import org.lo.d.minecraft.littlemaid.MaidExIcon;
@@ -17,6 +18,7 @@ public class LMM_EntityMode_SugarCount extends LMM_EntityModeBaseEx {
 
 	private static class MaidSugarCountIcon extends MaidExIcon {
 		private final LMM_EntityMode_SugarCount ownerMode;
+		private static final ResourceLocation texture = new ResourceLocation("textures/items/sugar.png");
 
 		public MaidSugarCountIcon(LMM_EntityMode_SugarCount ownerMode) {
 			this.ownerMode = ownerMode;
@@ -41,8 +43,8 @@ public class LMM_EntityMode_SugarCount extends LMM_EntityModeBaseEx {
 		}
 
 		@Override
-		public String getTexture() {
-			return "/textures/items/sugar.png";
+		public ResourceLocation getTexture() {
+			return texture;
 		}
 	}
 

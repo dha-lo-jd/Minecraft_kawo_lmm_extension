@@ -42,7 +42,7 @@ public class RenderLittleMaidEx extends LMM_RenderLittleMaid {
 		double iconsWidth = 0;
 		double iconsOffsetY = -4F / 16F;
 		double iconsVirticalOffsetY = 5F / 16F;
-		if (plittleMaid.func_94056_bM()) {
+		if (plittleMaid.hasCustomNameTag()) {
 			iconsOffsetY += 4F / 16F;
 			iconsVirticalOffsetY += 3F / 16F;
 		}

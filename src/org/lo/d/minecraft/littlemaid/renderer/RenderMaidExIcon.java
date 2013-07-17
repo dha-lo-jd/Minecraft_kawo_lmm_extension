@@ -56,7 +56,7 @@ public class RenderMaidExIcon {
 						safetyGL.disable(GL11.GL_LIGHTING);
 						safetyGL.disable(GL11.GL_BLEND);
 						safetyGL.enable(GL11.GL_TEXTURE_2D);
-						renderManager.renderEngine.bindTexture(icon.getTexture());
+						renderManager.renderEngine.func_110577_a(icon.getTexture());
 						Tessellator tessellator = Tessellator.instance;
 						tessellator.startDrawingQuads();
 						tessellator.addVertexWithUV(0, h, zLevel, 0, 0);

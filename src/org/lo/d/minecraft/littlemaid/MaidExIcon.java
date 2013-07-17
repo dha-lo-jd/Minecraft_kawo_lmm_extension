@@ -1,10 +1,12 @@
 package org.lo.d.minecraft.littlemaid;
 
+import net.minecraft.util.ResourceLocation;
+
 public class MaidExIcon {
 
 	protected double offsetX;
 
-	protected String texture;
+	protected ResourceLocation texture;
 
 	protected String text;
 	protected int textColor;
@@ -21,7 +23,7 @@ public class MaidExIcon {
 		return textColor;
 	}
 
-	public String getTexture() {
+	public ResourceLocation getTexture() {
 		return texture;
 	}
 

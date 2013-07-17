@@ -19,10 +19,10 @@ public class NamingBookCommandProcessor extends AbstractBookCommandProcessor<Nam
 			if (name == null) {
 				name = "";
 			}
-			if (owner.func_94056_bM() && name.equals(owner.func_94057_bL())) {
+			if (owner.hasCustomNameTag() && name.equals(owner.getCustomNameTag())) {
 				return State.CONTINUE;
 			}
-			owner.func_94058_c(name);
+			owner.setCustomNameTag(name);
 			return State.CONTINUE_AND_EXIT;
 		}
 		return State.CONTINUE;

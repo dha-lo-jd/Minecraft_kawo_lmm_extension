@@ -4,12 +4,14 @@ import java.util.regex.Pattern;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiTabContainer;
-import net.minecraft.client.renderer.RenderEngine;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.src.LMM_EntityLittleMaid;
 import net.minecraft.src.MMM_TextureBox;
 import net.minecraft.src.MMM_TextureManager;
+import net.minecraft.util.ResourceLocation;
 
 import org.lo.d.commons.coords.Point2D;
 import org.lo.d.commons.coords.Rect2D;
@@ -28,10 +30,10 @@ public class GuiMaidExContainer extends GuiTabContainer implements GuiTabContain
 		protected final GuiMaidExContainer tabContainer;
 		protected final GuiContainer container;
 		protected final LMM_EntityLittleMaid entitylittlemaid;
-		protected final String iconTexture;
+		protected final ResourceLocation iconTexture;
 
 		public MaidExTabEntry(GuiMaidExContainer tabContainer, GuiContainer container,
-				LMM_EntityLittleMaid entitylittlemaid, String iconTexture) {
+				LMM_EntityLittleMaid entitylittlemaid, ResourceLocation iconTexture) {
 			this.tabContainer = tabContainer;
 			this.container = container;
 			this.entitylittlemaid = entitylittlemaid;
@@ -39,12 +41,12 @@ public class GuiMaidExContainer extends GuiTabContainer implements GuiTabContain
 		}
 
 		@Override
-		public void drawCurrentTab(Point2D tabDrawPoint, int tabIndex, RenderEngine renderEngine) {
+		public void drawCurrentTab(Point2D tabDrawPoint, int tabIndex, TextureManager renderEngine) {
 			drawTab(tabDrawPoint, tabIndex, renderEngine);
 		}
 
 		@Override
-		public void drawForcusTab(Point2D tabDrawPoint, int tabIndex, RenderEngine renderEngine) {
+		public void drawForcusTab(Point2D tabDrawPoint, int tabIndex, TextureManager renderEngine) {
 			drawTab(tabDrawPoint, tabIndex, renderEngine);
 
 		}
@@ -63,13 +65,13 @@ public class GuiMaidExContainer extends GuiTabContainer implements GuiTabContain
 		}
 
 		@Override
-		public void drawTab(final Point2D tabDrawPoint, final int tabIndex, final RenderEngine renderEngine) {
+		public void drawTab(final Point2D tabDrawPoint, final int tabIndex, final TextureManager renderEngine) {
 			SafetyGL.safetyGLProcess(new SafetyGL.Processor() {
 				@Override
 				public void process(SafetyGL safetyGL) {
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 					safetyGL.disableStandardItemLighting();
-					renderEngine.bindTexture(iconTexture);
+					renderEngine.func_110577_a(iconTexture);
 					int drawLeft = tabDrawPoint.getX();
 					int drawTop = tabDrawPoint.getY();
 					drawFullyTextureRect(drawLeft, drawTop, SIZE, SIZE);
@@ -83,6 +85,9 @@ public class GuiMaidExContainer extends GuiTabContainer implements GuiTabContain
 		}
 	}
 
+	public static final ResourceLocation TAB_MAID = new ResourceLocation("lmm_ex", "textures/gui/tab_maid.png");
+	public static final ResourceLocation iconTexture = new ResourceLocation("lmm_ex", "textures/gui/gui_tab.png");
+
 	private static final int TAB_WIDTH = 28;
 
 	private static final int TAB_HEIGHT = 28;
@@ -91,7 +96,6 @@ public class GuiMaidExContainer extends GuiTabContainer implements GuiTabContain
 
 	private static final Pattern PATTERN_EXT = Pattern.compile("\\.[0-9a-zA-Z]+$");
 
-	private static final String iconTexture = "/gui/gui_tab.png";
 	private static final Point2D tabUV = new Point2D(TAB_WIDTH, 0);
 	private static final Point2D tabForcusUV = new Point2D(0, TAB_HEIGHT);
 	private static final Point2D currentTabUV = new Point2D(0, 0);
@@ -111,20 +115,20 @@ public class GuiMaidExContainer extends GuiTabContainer implements GuiTabContain
 	}
 
 	@Override
-	public void drawCurrentTab(final Point2D tabDrawPoint, final int tabIndex, final RenderEngine renderEngine) {
-		renderEngine.bindTexture(getTabTexture());
+	public void drawCurrentTab(final Point2D tabDrawPoint, final int tabIndex, final TextureManager renderEngine) {
+		renderEngine.func_110577_a(getTabTexture());
 		doDrawTab(tabDrawPoint, getCurrentTabUV(tabIndex), tabIndex, renderEngine);
 	}
 
 	@Override
-	public void drawForcusTab(Point2D tabDrawPoint, int tabIndex, RenderEngine renderEngine) {
-		mc.renderEngine.bindTexture(getTabTexture());
+	public void drawForcusTab(Point2D tabDrawPoint, int tabIndex, TextureManager renderEngine) {
+		mc.renderEngine.func_110577_a(getTabTexture());
 		doDrawTab(tabDrawPoint, tabForcusUV, tabIndex, renderEngine);
 	}
 
 	@Override
-	public void drawTab(final Point2D tabDrawPoint, final int tabIndex, final RenderEngine renderEngine) {
-		mc.renderEngine.bindTexture(getTabTexture());
+	public void drawTab(final Point2D tabDrawPoint, final int tabIndex, final TextureManager renderEngine) {
+		mc.renderEngine.func_110577_a(getTabTexture());
 		doDrawTab(tabDrawPoint, tabUV, tabIndex, renderEngine);
 	}
 
@@ -148,7 +152,7 @@ public class GuiMaidExContainer extends GuiTabContainer implements GuiTabContain
 	}
 
 	private void doDrawTab(final Point2D tabDrawPoint, final Point2D iconUV, final int tabIndex,
-			final RenderEngine renderEngine) {
+			final TextureManager renderEngine) {
 		SafetyGL.safetyGLProcess(new SafetyGL.Processor() {
 			@Override
 			public void process(SafetyGL safetyGL) {
@@ -165,22 +169,27 @@ public class GuiMaidExContainer extends GuiTabContainer implements GuiTabContain
 		return currentTabUV;
 	}
 
-	private String getTabTexture() {
+	private ResourceLocation getTabTexture() {
 		return getTextureName(TEXTURE_SUFFIX_TAB, iconTexture);
 	}
 
-	private String getTextureName(String suffix, String defualt) {
-		String s = ((MMM_TextureBox) entitylittlemaid.textureBox[0]).getTextureName(MMM_TextureManager.tx_gui);
-		if (s != null) {
+	private ResourceLocation getTextureName(String suffix, ResourceLocation defualt) {
+		ResourceLocation loc = null;
+		ResourceLocation l = ((MMM_TextureBox) entitylittlemaid.textureBox[0])
+				.getTextureName(MMM_TextureManager.tx_gui);
+		if (l != null) {
+			String s = l.func_110623_a();
 			s = PATTERN_EXT.matcher(s).replaceAll(suffix + "\\0");
-			if (!mc.texturePackList.getSelectedTexturePack().func_98138_b(s, true)) {
-				s = null;
+			loc = new ResourceLocation(l.func_110624_b(), s);
+			mc.renderEngine.func_110577_a(loc);
+			if (mc.renderEngine.func_110581_b(loc) == TextureUtil.field_111001_a) {
+				loc = null;
 			}
 		}
-		if (s == null) {
-			s = defualt;
+		if (loc == null) {
+			loc = defualt;
 		}
 
-		return s;
+		return loc;
 	}
 }
