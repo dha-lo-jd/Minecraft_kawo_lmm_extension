@@ -123,16 +123,19 @@ public class LMMExtension {
 
 	private Configuration config;
 
-	@Mod.Init
+	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		ReflectionSupport.getClasses("", classWorkers);
 
 		sideProxy.registMaidEntityAndRenderers(BaseEntityLittleMaidEx.class, 0, "EntityLittleMaidEx");
 		NetworkRegistry.instance().registerGuiHandler(instance, sideProxy);
 		MinecraftForge.EVENT_BUS.register(MAID_SPAWN_EVENT_HANDLER);
+		if (enableUninstallMode) {
+			MinecraftForge.EVENT_BUS.register(new LMMExtensionWarningForDisabledEventHandler());
+		}
 	}
 
-	@Mod.PostInit
+	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		LITTLE_MAID_MODE_ID_RESOLVER.postInit(config);
 		if (config != null) {
@@ -140,7 +143,7 @@ public class LMMExtension {
 		}
 	}
 
-	@Mod.PreInit
+	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) throws IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException {
 		config = new Configuration(event.getSuggestedConfigurationFile());
