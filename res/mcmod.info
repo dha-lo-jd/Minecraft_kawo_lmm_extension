@@ -1,7 +1,7 @@
 [{
     "modid": "LMMExtension",
     "name": "Kawo LMM Extension",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "mcversion": "1.6.2",
     "authors": [ "dhs_lo_jd" ],
     "requiredMods": [ "Forge", "mod_LMM_littleMaidMob" ],
